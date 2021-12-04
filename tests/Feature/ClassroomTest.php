@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 use Tests\Traits\CreatesClassrooms;
 use Tests\Traits\CreatesUsers;
@@ -78,5 +79,39 @@ class ClassroomTest extends TestCase
             ->assertSuccessful();
 
         $this->assertDeleted($classroom);
+    }
+
+    public function testUserCanArchiveClassroom(): void
+    {
+        $user = $this->createUser();
+        $classroom = $this->createClassroomFor($user);
+
+        $this->assertFalse($classroom->isArchived());
+
+        $this->actingAs($user)
+            ->put("/classrooms/{$classroom->id}/archive")
+            ->assertSuccessful();
+
+        $classroom->refresh();
+
+        $this->assertTrue($classroom->isArchived());
+    }
+
+    public function testUserCanUnarchiveClassroom(): void
+    {
+        $user = $this->createUser();
+        $classroom = $this->createClassroomFor($user, [
+            "archived_at" => Carbon::now(),
+        ]);
+
+        $this->assertTrue($classroom->isArchived());
+
+        $this->actingAs($user)
+            ->delete("/classrooms/{$classroom->id}/archive")
+            ->assertSuccessful();
+
+        $classroom->refresh();
+
+        $this->assertFalse($classroom->isArchived());
     }
 }

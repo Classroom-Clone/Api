@@ -16,8 +16,10 @@ class ClassroomResource extends JsonResource
             "description" => $this->description,
             "color" => $this->accent_color,
             "invite_code" => $this->invite_code,
+            "is_archived" => $this->isArchived(),
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
+            "archived_at" => $this->when($this->isArchived(), $this->archived_at),
         ];
     }
 }

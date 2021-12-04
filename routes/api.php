@@ -29,4 +29,6 @@ Route::middleware("auth:sanctum")->group(function (): void {
     Route::post("/classrooms", [ClassroomController::class, "store"]);
     Route::put("/classrooms/{classroom}", [ClassroomController::class, "update"]);
     Route::delete("/classrooms/{classroom}", [ClassroomController::class, "delete"]);
+    Route::put("/classrooms/{classroom}/archive", [ClassroomController::class, "archive"]);
+    Route::delete("/classrooms/{classroom}/archive", [ClassroomController::class, "unarchive"]);
 });

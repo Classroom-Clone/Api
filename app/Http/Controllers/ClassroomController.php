@@ -46,4 +46,18 @@ class ClassroomController extends Controller
 
         return response()->noContent();
     }
+
+    public function archive(Classroom $classroom): JsonResource
+    {
+        $classroom->archive();
+
+        return new ClassroomResource($classroom);
+    }
+
+    public function unarchive(Classroom $classroom): JsonResource
+    {
+        $classroom->unarchive();
+
+        return new ClassroomResource($classroom);
+    }
 }

@@ -17,7 +17,13 @@ class DatabaseSeeder extends Seeder
             ->create();
 
         Classroom::factory()
-            ->count(10)
+            ->count(8)
+            ->hasRandomOwner()
+            ->create();
+
+        Classroom::factory()
+            ->count(2)
+            ->archived()
             ->hasRandomOwner()
             ->create();
     }
