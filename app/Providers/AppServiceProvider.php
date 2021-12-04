@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\Classroom;
+use App\Observers\ClassroomObserver;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Telescope\TelescopeServiceProvider as BaseTelescopeServiceProvider;
 
@@ -15,5 +17,10 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(BaseTelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
+    }
+
+    public function boot(): void
+    {
+        Classroom::observe(ClassroomObserver::class);
     }
 }
