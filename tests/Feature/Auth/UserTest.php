@@ -22,7 +22,7 @@ class UserTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->get("auth/user");
+        $response = $this->get("/me");
 
         $response->assertOk();
         $response->assertJsonFragment([
@@ -32,7 +32,7 @@ class UserTest extends TestCase
 
     public function testUserCannotGetHisInformationWhenUnauthenticated(): void
     {
-        $response = $this->get("auth/user");
+        $response = $this->get("/me");
 
         $response->assertUnauthorized();
     }
