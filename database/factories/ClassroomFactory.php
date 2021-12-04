@@ -6,6 +6,7 @@ namespace Database\Factories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 class ClassroomFactory extends Factory
@@ -29,4 +30,14 @@ class ClassroomFactory extends Factory
             ],
         );
     }
+
+    public function archived(): Factory
+    {
+        return $this->state(
+            fn() => [
+                "archived_at" => Carbon::now(),
+            ],
+        );
+    }
+
 }

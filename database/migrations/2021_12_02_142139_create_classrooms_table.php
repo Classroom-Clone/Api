@@ -19,6 +19,7 @@ return new class() extends Migration {
             $table->foreignIdFor(User::class)
                 ->constrained()
                 ->cascadeOnDelete();
+            $table->timestamp("archived_at")->nullable();
             $table->timestamps();
         });
     }
