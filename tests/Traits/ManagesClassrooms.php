@@ -8,7 +8,7 @@ use App\Models\Classroom;
 use App\Models\User;
 use Illuminate\Support\Collection;
 
-trait CreatesClassrooms
+trait ManagesClassrooms
 {
     public function createClassroom(array $data = []): Classroom
     {
@@ -41,5 +41,10 @@ trait CreatesClassrooms
             ->count($count)
             ->for($owner, "owner")
             ->create();
+    }
+
+    public function attachMembers(Classroom $classroom, User|Collection $members): void
+    {
+        $classroom->members()->attach($members);
     }
 }

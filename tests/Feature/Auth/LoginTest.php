@@ -7,18 +7,20 @@ namespace Tests\Feature\Auth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
-use Tests\Traits\CreatesUsers;
+use Tests\Traits\ManagesUsers;
 
 class LoginTest extends TestCase
 {
     use RefreshDatabase;
-    use CreatesUsers;
+    use ManagesUsers;
 
     public function testUserCanLoginWithProperCredentials(): void
     {
         $email = "test@example.com";
 
-        $this->createUser($email);
+        $this->createUser([
+            "email" => $email,
+        ]);
 
         $response = $this->post("auth/login", [
             "email" => $email,
@@ -32,11 +34,13 @@ class LoginTest extends TestCase
     {
         $email = "test@example.com";
 
-        $this->createUser($email, "differentPassword123");
+        $this->createUser([
+            "email" => $email,
+        ]);
 
         $response = $this->post("auth/login", [
             "email" => $email,
-            "password" => "secret123",
+            "password" => "wrong-password-123",
         ]);
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);

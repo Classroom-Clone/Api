@@ -13,18 +13,21 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory()
-            ->count(50)
-            ->create();
+            ->create([
+                "email" => "admin@example.com",
+            ]);
 
         Classroom::factory()
             ->count(8)
-            ->hasRandomOwner()
+            ->hasOwner()
+            ->hasMembers(20)
             ->create();
 
         Classroom::factory()
             ->count(2)
             ->archived()
-            ->hasRandomOwner()
+            ->hasOwner()
+            ->hasMembers(20)
             ->create();
     }
 }
