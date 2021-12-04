@@ -23,7 +23,6 @@ class ClassroomTest extends TestCase
         $this->actingAs($user)
             ->get("/me/owned-classrooms")
             ->assertSuccessful()
-            ->dump()
             ->assertJsonCount(3, "data");
     }
 
