@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 /**
  * @property int $id
@@ -21,6 +23,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon $archived_at
+ * @property Collection $members
  */
 class Classroom extends Model
 {
@@ -35,6 +38,11 @@ class Classroom extends Model
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, "user_id");
+    }
+
+    public function members(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
     }
 
     public function archive(): void

@@ -7,18 +7,20 @@ namespace Tests\Feature\Auth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
-use Tests\Traits\CreatesUsers;
+use Tests\Traits\ManagesUsers;
 
 class UserTest extends TestCase
 {
     use RefreshDatabase;
-    use CreatesUsers;
+    use ManagesUsers;
 
     public function testUserCanGetHisInformation(): void
     {
         $email = "test@example.com";
 
-        $user = $this->createUser($email);
+        $user = $this->createUser([
+            "email" => $email,
+        ]);
 
         Sanctum::actingAs($user);
 

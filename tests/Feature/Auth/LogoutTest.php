@@ -7,12 +7,12 @@ namespace Tests\Feature\Auth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
-use Tests\Traits\CreatesUsers;
+use Tests\Traits\ManagesUsers;
 
 class LogoutTest extends TestCase
 {
     use RefreshDatabase;
-    use CreatesUsers;
+    use ManagesUsers;
 
     public function testUserCanLogout(): void
     {

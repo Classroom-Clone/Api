@@ -7,14 +7,14 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
-use Tests\Traits\CreatesClassrooms;
-use Tests\Traits\CreatesUsers;
+use Tests\Traits\ManagesClassrooms;
+use Tests\Traits\ManagesUsers;
 
 class ClassroomTest extends TestCase
 {
     use RefreshDatabase;
-    use CreatesUsers;
-    use CreatesClassrooms;
+    use ManagesUsers;
+    use ManagesClassrooms;
 
     public function testUserCanSeeOwnedClassrooms(): void
     {

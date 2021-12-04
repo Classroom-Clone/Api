@@ -22,15 +22,6 @@ class ClassroomFactory extends Factory
         ];
     }
 
-    public function hasRandomOwner(): Factory
-    {
-        return $this->state(
-            fn() => [
-                "user_id" => User::query()->inRandomOrder()->first()->id,
-            ],
-        );
-    }
-
     public function archived(): Factory
     {
         return $this->state(

@@ -7,12 +7,12 @@ namespace Tests\Feature\Auth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
-use Tests\Traits\CreatesUsers;
+use Tests\Traits\ManagesUsers;
 
 class RegisterTest extends TestCase
 {
     use RefreshDatabase;
-    use CreatesUsers;
+    use ManagesUsers;
 
     public function testUserCanRegisterWithProperCredentials(): void
     {
@@ -44,7 +44,9 @@ class RegisterTest extends TestCase
     {
         $email = "test@example.com";
 
-        $this->createUser($email);
+        $this->createUser([
+            "email" => $email,
+        ]);
 
         $response = $this->post("auth/register", [
             "email" => $email,
