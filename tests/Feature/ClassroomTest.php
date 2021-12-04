@@ -100,7 +100,9 @@ class ClassroomTest extends TestCase
     public function testUserCanUnarchiveClassroom(): void
     {
         $user = $this->createUser();
-        $classroom = $this->createClassroomFor($user, ["archived_at" => Carbon::now()]);
+        $classroom = $this->createClassroomFor($user, [
+            "archived_at" => Carbon::now(),
+        ]);
 
         $this->assertTrue($classroom->isArchived());
 
