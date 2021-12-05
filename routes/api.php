@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,7 @@ Route::middleware("auth:sanctum")->group(function (): void {
     });
 
     Route::post("/classrooms", [ClassroomController::class, "store"]);
+    Route::get("/classrooms/{classroom}", [ClassroomController::class, "show"]);
     Route::put("/classrooms/{classroom}", [ClassroomController::class, "update"]);
     Route::delete("/classrooms/{classroom}", [ClassroomController::class, "delete"]);
     Route::put("/classrooms/{classroom}/archive", [ClassroomController::class, "archive"]);
@@ -41,6 +43,13 @@ Route::middleware("auth:sanctum")->group(function (): void {
 
     Route::get("/classrooms/{classroom}/posts", [PostController::class, "index"]);
     Route::post("/classrooms/{classroom}/posts", [PostController::class, "store"]);
+    Route::get("/posts/{post}", [PostController::class, "show"]);
     Route::put("/posts/{post}", [PostController::class, "update"]);
     Route::delete("/posts/{post}", [PostController::class, "delete"]);
+
+    Route::get("/posts/{post}/comments", [CommentController::class, "index"]);
+    Route::post("/posts/{post}/comments", [CommentController::class, "store"]);
+    Route::get("/comments/{comment}", [CommentController::class, "show"]);
+    Route::put("/comments/{comment}", [CommentController::class, "update"]);
+    Route::delete("/comments/{comment}", [CommentController::class, "delete"]);
 });

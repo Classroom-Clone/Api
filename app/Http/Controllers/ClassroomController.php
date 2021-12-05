@@ -24,6 +24,11 @@ class ClassroomController extends Controller
         return new ClassroomCollection($classrooms);
     }
 
+    public function show(Classroom $classroom): JsonResource
+    {
+        return new ClassroomResource($classroom);
+    }
+
     public function store(StoreRequest $request): JsonResource
     {
         $classroom = $request->user()

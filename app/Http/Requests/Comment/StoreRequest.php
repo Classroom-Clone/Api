@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Post;
+namespace App\Http\Requests\Comment;
 
 class StoreRequest extends BaseRequest
 {
-    public function getPostData(): array
+    public function getCommentData(): array
     {
         return [
-            "title" => $this->get("title"),
             "content" => $this->get("content"),
             "user_id" => $this->user()->id,
         ];

@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Models\Classroom;
+use App\Models\Post;
 use App\Observers\ClassroomObserver;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Telescope\TelescopeServiceProvider as BaseTelescopeServiceProvider;
 
@@ -22,5 +24,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Classroom::observe(ClassroomObserver::class);
+
+        Relation::morphMap([
+            "post" => Post::class,
+        ]);
     }
 }
