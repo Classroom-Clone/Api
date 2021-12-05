@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Models\Classroom;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
@@ -11,6 +12,8 @@ use Illuminate\Support\Str;
 
 class ClassroomFactory extends Factory
 {
+    protected $model = Classroom::class;
+
     public function definition(): array
     {
         return [
