@@ -48,8 +48,10 @@ Route::middleware("auth:sanctum")->group(function (): void {
     Route::put("/posts/{post}", [PostController::class, "update"]);
     Route::delete("/posts/{post}", [PostController::class, "delete"]);
 
-    Route::get("/posts/{post}/comments", [CommentController::class, "index"]);
-    Route::post("/posts/{post}/comments", [CommentController::class, "store"]);
+    Route::get("/posts/{post}/comments", [CommentController::class, "indexForPost"]);
+    Route::post("/posts/{post}/comments", [CommentController::class, "storeForPost"]);
+    Route::get("/assignments/{assignment}/comments", [CommentController::class, "indexForAssignment"]);
+    Route::post("/assignments/{assignment}/comments", [CommentController::class, "storeForAssignment"]);
     Route::get("/comments/{comment}", [CommentController::class, "show"]);
     Route::put("/comments/{comment}", [CommentController::class, "update"]);
     Route::delete("/comments/{comment}", [CommentController::class, "delete"]);

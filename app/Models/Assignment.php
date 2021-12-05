@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Helpers\Commentable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 /**
  * @property int $id
@@ -19,8 +22,9 @@ use Illuminate\Support\Carbon;
  * @property Carbon $due_date
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property Collection $comments
  */
-class Assignment extends Model
+class Assignment extends Model implements Commentable
 {
     use HasFactory;
 
@@ -38,5 +42,10 @@ class Assignment extends Model
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, "user_id");
+    }
+
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, "commentable");
     }
 }

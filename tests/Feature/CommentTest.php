@@ -6,6 +6,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Tests\Traits\ManagesAssignments;
 use Tests\Traits\ManagesComments;
 use Tests\Traits\ManagesPosts;
 use Tests\Traits\ManagesUsers;
@@ -15,9 +16,10 @@ class CommentTest extends TestCase
     use RefreshDatabase;
     use ManagesUsers;
     use ManagesPosts;
+    use ManagesAssignments;
     use ManagesComments;
 
-    public function testUserCanSeeCommentsForSpecificPost(): void
+    public function testUserCanSeeCommentsForPost(): void
     {
         $user = $this->createUser();
         $post = $this->createPost();
@@ -29,20 +31,7 @@ class CommentTest extends TestCase
             ->assertJsonCount(10, "data");
     }
 
-    public function testUserCanSeePost(): void
-    {
-        $user = $this->createUser();
-        $comment = $this->createComment();
-
-        $this->actingAs($user)
-            ->get("/comments/{$comment->id}")
-            ->assertSuccessful()
-            ->assertJsonFragment([
-                "id" => $comment->id,
-            ]);
-    }
-
-    public function testUserCanCreateComment(): void
+    public function testUserCanCreateCommentForPost(): void
     {
         $user = $this->createUser();
         $post = $this->createPost();
@@ -59,6 +48,50 @@ class CommentTest extends TestCase
             "commentable_type" => $post->getMorphClass(),
             "user_id" => $user->id,
         ]);
+    }
+
+    public function testUserCanSeeCommentsForAssignment(): void
+    {
+        $user = $this->createUser();
+        $assignment = $this->createAssignment();
+        $this->createCommentsFor($assignment, 10);
+
+        $this->actingAs($user)
+            ->get("/assignments/{$assignment->id}/comments")
+            ->assertSuccessful()
+            ->assertJsonCount(10, "data");
+    }
+
+    public function testUserCanCreateCommentForAssignment(): void
+    {
+        $user = $this->createUser();
+        $assignment = $this->createAssignment();
+
+        $this->actingAs($user)
+            ->post("/assignments/{$assignment->id}/comments", [
+                "content" => "My content",
+            ])
+            ->assertSuccessful();
+
+        $this->assertDatabaseHas("comments", [
+            "content" => "My content",
+            "commentable_id" => $assignment->id,
+            "commentable_type" => $assignment->getMorphClass(),
+            "user_id" => $user->id,
+        ]);
+    }
+
+    public function testUserCanSeeComment(): void
+    {
+        $user = $this->createUser();
+        $comment = $this->createComment();
+
+        $this->actingAs($user)
+            ->get("/comments/{$comment->id}")
+            ->assertSuccessful()
+            ->assertJsonFragment([
+                "id" => $comment->id,
+            ]);
     }
 
     public function testUserCanUpdateComment(): void

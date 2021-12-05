@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\Assignment;
 use App\Models\Classroom;
 use App\Models\Post;
 use App\Observers\ClassroomObserver;
@@ -27,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
 
         Relation::morphMap([
             "post" => Post::class,
+            "assignment" => Assignment::class,
         ]);
     }
 }

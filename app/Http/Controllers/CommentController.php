@@ -8,6 +8,7 @@ use App\Http\Requests\Comment\StoreRequest;
 use App\Http\Requests\Comment\UpdateRequest;
 use App\Http\Resources\Comment\CommentCollection;
 use App\Http\Resources\Comment\CommentResource;
+use App\Models\Assignment;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -16,9 +17,17 @@ use Illuminate\Http\Response;
 
 class CommentController extends Controller
 {
-    public function index(Request $request, Post $post): JsonResource
+    public function indexForPost(Request $request, Post $post): JsonResource
     {
         $comments = $post->comments()
+            ->paginate($request->query("perPage"));
+
+        return new CommentCollection($comments);
+    }
+
+    public function indexForAssignment(Request $request, Assignment $assignment): JsonResource
+    {
+        $comments = $assignment->comments()
             ->paginate($request->query("perPage"));
 
         return new CommentCollection($comments);
@@ -29,9 +38,16 @@ class CommentController extends Controller
         return new CommentResource($comment);
     }
 
-    public function store(StoreRequest $request, Post $post): JsonResource
+    public function storeForPost(StoreRequest $request, Post $post): JsonResource
     {
         $comment = $post->comments()->create($request->getCommentData());
+
+        return new CommentResource($comment);
+    }
+
+    public function storeForAssignment(StoreRequest $request, Assignment $assignment): JsonResource
+    {
+        $comment = $assignment->comments()->create($request->getCommentData());
 
         return new CommentResource($comment);
     }

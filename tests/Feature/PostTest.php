@@ -17,7 +17,7 @@ class PostTest extends TestCase
     use ManagesClassrooms;
     use ManagesPosts;
 
-    public function testUserCanSeePostsForSpecificClassroom(): void
+    public function testUserCanSeePostsForClassroom(): void
     {
         $user = $this->createUser();
         $classroom = $this->createClassroom();
