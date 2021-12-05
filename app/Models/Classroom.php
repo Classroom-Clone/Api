@@ -26,6 +26,7 @@ use Illuminate\Support\Collection;
  * @property Carbon $archived_at
  * @property Collection $members
  * @property Collection $posts
+ * @property Collection $assignments
  */
 class Classroom extends Model
 {
@@ -50,6 +51,11 @@ class Classroom extends Model
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function assignments(): HasMany
+    {
+        return $this->hasMany(Assignment::class);
     }
 
     public function archive(): void

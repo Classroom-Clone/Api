@@ -11,7 +11,7 @@ return [
     "timezone" => "Europe/Warsaw",
     "locale" => "pl",
     "fallback_locale" => "en",
-    "faker_locale" => "en_US",
+    "faker_locale" => "pl_PL",
     "key" => env("APP_KEY"),
     "cipher" => "AES-256-CBC",
     "providers" => [
