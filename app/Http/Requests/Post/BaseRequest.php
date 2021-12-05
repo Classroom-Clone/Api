@@ -6,7 +6,7 @@ namespace App\Http\Requests\Post;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BaseRequest extends FormRequest
+abstract class BaseRequest extends FormRequest
 {
     public function rules(): array
     {
@@ -19,14 +19,7 @@ class BaseRequest extends FormRequest
         ];
     }
 
-    public function getPostData(): array
-    {
-        return [
-            "title" => $this->get("title"),
-            "content" => $this->get("content"),
-            "user_id" => $this->user()->id,
-        ];
-    }
+    abstract public function getPostData(): array;
 
     public function getLinks(): array
     {

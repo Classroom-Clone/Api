@@ -27,6 +27,19 @@ class ClassroomTest extends TestCase
             ->assertJsonCount(3, "data");
     }
 
+    public function testUserCanSeeClassrooms(): void
+    {
+        $user = $this->createUser();
+        $classroom = $this->createClassroomFor($user);
+
+        $this->actingAs($user)
+            ->get("/classrooms/{$classroom->id}")
+            ->assertSuccessful()
+            ->assertJsonFragment([
+                "id" => $classroom->id,
+            ]);
+    }
+
     public function testUserCanCreateClassroom(): void
     {
         $user = $this->createUser();

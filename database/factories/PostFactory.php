@@ -21,4 +21,13 @@ class PostFactory extends Factory
             "user_id" => fn(array $attributes) => Classroom::query()->find($attributes["classroom_id"])->owner->id,
         ];
     }
+
+    public function forRandomClassroom(): Factory
+    {
+        return $this->state(
+            fn() => [
+                "classroom_id" => Classroom::query()->inRandomOrder()->first()->id,
+            ],
+        );
+    }
 }

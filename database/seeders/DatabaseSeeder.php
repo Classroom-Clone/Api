@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\Classroom;
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -23,7 +24,6 @@ class DatabaseSeeder extends Seeder
             ->count(8)
             ->hasOwner()
             ->hasMembers(20)
-            ->has(Post::factory()->count(5)->hasLinks(3))
             ->create();
 
         Classroom::factory()
@@ -31,7 +31,13 @@ class DatabaseSeeder extends Seeder
             ->archived()
             ->hasOwner()
             ->hasMembers(20)
-            ->has(Post::factory()->count(10)->hasLinks(3))
+            ->create();
+
+        Post::factory()
+            ->forRandomClassroom()
+            ->count(50)
+            ->hasComments(Comment::factory()->count(10)->forRandomUser())
+            ->hasLinks(3)
             ->create();
     }
 }

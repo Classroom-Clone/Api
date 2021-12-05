@@ -29,6 +29,19 @@ class PostTest extends TestCase
             ->assertJsonCount(10, "data");
     }
 
+    public function testUserCanSeePost(): void
+    {
+        $user = $this->createUser();
+        $post = $this->createPost();
+
+        $this->actingAs($user)
+            ->get("/posts/{$post->id}")
+            ->assertSuccessful()
+            ->assertJsonFragment([
+                "id" => $post->id,
+            ]);
+    }
+
     public function testUserCanCreatePost(): void
     {
         $user = $this->createUser();
@@ -83,7 +96,7 @@ class PostTest extends TestCase
         $post = $this->createPost();
 
         $this->actingAs($user)
-            ->put("/posts/{$post->classroom->id}", [
+            ->put("/posts/{$post->id}", [
                 "title" => $post->title,
                 "content" => "Changed content",
             ])
@@ -104,7 +117,7 @@ class PostTest extends TestCase
         $this->assertCount(3, $post->links()->get());
 
         $this->actingAs($user)
-            ->put("/posts/{$post->classroom->id}", [
+            ->put("/posts/{$post->id}", [
                 "title" => $post->title,
                 "content" => $post->content,
                 "links" => [

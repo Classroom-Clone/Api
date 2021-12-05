@@ -24,6 +24,11 @@ class PostController extends Controller
         return new PostCollection($members);
     }
 
+    public function show(Post $post): JsonResource
+    {
+        return new PostResource($post);
+    }
+
     public function store(StoreRequest $request, Classroom $classroom): JsonResource
     {
         /** @var Post $post */
