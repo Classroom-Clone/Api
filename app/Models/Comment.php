@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property Carbon $updated_at
  * @property Classroom $classroom
  * @property Post $post
+ * @property Assignment $assignment
  * @property User $user
  */
 class Comment extends Model
@@ -39,6 +40,11 @@ class Comment extends Model
     public function post(): MorphOne
     {
         return $this->morphOne(Post::class, "commentable");
+    }
+
+    public function assignment(): MorphOne
+    {
+        return $this->morphOne(Assignment::class, "commentable");
     }
 
     public function isEdited(): bool

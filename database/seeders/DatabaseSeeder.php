@@ -35,15 +35,16 @@ class DatabaseSeeder extends Seeder
             ->create();
 
         Post::factory()
-            ->forRandomClassroom()
             ->count(50)
+            ->forRandomClassroom()
             ->hasComments(Comment::factory()->count(10)->forRandomUser())
             ->hasLinks(3)
             ->create();
 
         Assignment::factory()
-            ->forRandomClassroom()
             ->count(20)
+            ->forRandomClassroom()
+            ->hasComments(Comment::factory()->count(2)->forRandomUser())
             ->create();
     }
 }

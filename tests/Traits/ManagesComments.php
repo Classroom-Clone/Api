@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Traits;
 
+use App\Helpers\Commentable;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Support\Collection;
@@ -38,10 +39,10 @@ trait ManagesComments
             ->create();
     }
 
-    public function createCommentsFor(Post $post, int $count = 5): Collection
+    public function createCommentsFor(Commentable $commentable, int $count = 5): Collection
     {
         return Comment::factory()
-            ->for($post, "commentable")
+            ->for($commentable, "commentable")
             ->count($count)
             ->create();
     }
