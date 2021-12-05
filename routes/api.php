@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/", fn(): array => [
@@ -37,4 +38,9 @@ Route::middleware("auth:sanctum")->group(function (): void {
     Route::post("/classrooms/{classroom}/members", [MemberController::class, "add"]);
     Route::delete("/classrooms/{classroom}/members", [MemberController::class, "removeAll"]);
     Route::delete("/classrooms/{classroom}/members/{member}", [MemberController::class, "remove"]);
+
+    Route::get("/classrooms/{classroom}/posts", [PostController::class, "index"]);
+    Route::post("/classrooms/{classroom}/posts", [PostController::class, "store"]);
+    Route::put("/posts/{post}", [PostController::class, "update"]);
+    Route::delete("/posts/{post}", [PostController::class, "delete"]);
 });

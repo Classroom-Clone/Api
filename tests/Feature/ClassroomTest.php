@@ -53,7 +53,6 @@ class ClassroomTest extends TestCase
 
         $this->actingAs($user)
             ->put("/classrooms/{$classroom->id}", [
-                "id" => $classroom->id,
                 "name" => $classroom->name,
                 "description" => $classroom->description,
                 "accent_color" => "#F6F6F6",
