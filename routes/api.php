@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -52,4 +53,10 @@ Route::middleware("auth:sanctum")->group(function (): void {
     Route::get("/comments/{comment}", [CommentController::class, "show"]);
     Route::put("/comments/{comment}", [CommentController::class, "update"]);
     Route::delete("/comments/{comment}", [CommentController::class, "delete"]);
+
+    Route::get("/classrooms/{classroom}/assignments", [AssignmentController::class, "index"]);
+    Route::post("/classrooms/{classroom}/assignments", [AssignmentController::class, "store"]);
+    Route::get("/assignments/{assignment}", [AssignmentController::class, "show"]);
+    Route::put("/assignments/{assignment}", [AssignmentController::class, "update"]);
+    Route::delete("/assignments/{assignment}", [AssignmentController::class, "delete"]);
 });

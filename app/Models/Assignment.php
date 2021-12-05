@@ -7,27 +7,28 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 
 /**
  * @property int $id
  * @property string $title
  * @property string $content
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property int $points
  * @property Classroom $classroom
  * @property User $owner
- * @property Collection $links
- * @property Collection $comments
+ * @property Carbon $due_date
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  */
-class Post extends Model
+class Assignment extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
+
+    protected $casts = [
+        "due_date" => "datetime",
+    ];
 
     public function classroom(): BelongsTo
     {
@@ -37,15 +38,5 @@ class Post extends Model
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, "user_id");
-    }
-
-    public function links(): HasMany
-    {
-        return $this->hasMany(Link::class);
-    }
-
-    public function comments(): MorphMany
-    {
-        return $this->morphMany(Comment::class, "commentable");
     }
 }
