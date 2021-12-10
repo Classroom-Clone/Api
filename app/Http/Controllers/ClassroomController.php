@@ -15,6 +15,15 @@ use Illuminate\Http\Response;
 
 class ClassroomController extends Controller
 {
+    public function index(Request $request): JsonResource
+    {
+        $classrooms = $request->user()
+            ->classrooms()
+            ->paginate($request->query("perPage"));
+
+        return new ClassroomCollection($classrooms);
+    }
+
     public function ownedIndex(Request $request): JsonResource
     {
         $classrooms = $request->user()

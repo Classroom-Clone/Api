@@ -1,4 +1,4 @@
-FROM ghcr.io/blumilksoftware/php:8.0
+FROM ghcr.io/blumilksoftware/php:8.1
 
 ARG XDEBUG_HOST=172.17.0.1
 ARG XDEBUG_PORT=9021

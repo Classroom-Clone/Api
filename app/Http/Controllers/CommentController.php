@@ -11,6 +11,7 @@ use App\Http\Resources\Comment\CommentResource;
 use App\Models\Assignment;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\Submission;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
@@ -33,6 +34,14 @@ class CommentController extends Controller
         return new CommentCollection($comments);
     }
 
+    public function indexForSubmission(Request $request, Submission $submission): JsonResource
+    {
+        $comments = $submission->comments()
+            ->paginate($request->query("perPage"));
+
+        return new CommentCollection($comments);
+    }
+
     public function show(Comment $comment): JsonResource
     {
         return new CommentResource($comment);
@@ -48,6 +57,13 @@ class CommentController extends Controller
     public function storeForAssignment(StoreRequest $request, Assignment $assignment): JsonResource
     {
         $comment = $assignment->comments()->create($request->getCommentData());
+
+        return new CommentResource($comment);
+    }
+
+    public function storeForSubmission(StoreRequest $request, Submission $submission): JsonResource
+    {
+        $comment = $submission->comments()->create($request->getCommentData());
 
         return new CommentResource($comment);
     }

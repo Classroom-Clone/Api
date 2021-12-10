@@ -30,7 +30,7 @@ class AssignmentTest extends TestCase
             ->assertJsonCount(10, "data");
     }
 
-    public function testUserCanSeePost(): void
+    public function testUserCanSeeAssignment(): void
     {
         $user = $this->createUser();
         $assignment = $this->createAssignment();
@@ -43,7 +43,7 @@ class AssignmentTest extends TestCase
             ]);
     }
 
-    public function testUserCanCreatePost(): void
+    public function testUserCanCreateAssignment(): void
     {
         Carbon::setTestNow(now());
 
@@ -69,7 +69,7 @@ class AssignmentTest extends TestCase
         ]);
     }
 
-    public function testUserCanUpdatePost(): void
+    public function testUserCanUpdateAssignment(): void
     {
         $user = $this->createUser();
         $assignment = $this->createAssignment();
@@ -91,7 +91,7 @@ class AssignmentTest extends TestCase
         ]);
     }
 
-    public function testUserCanDeletePost(): void
+    public function testUserCanDeleteAssignment(): void
     {
         $user = $this->createUser();
         $assignment = $this->createAssignment();

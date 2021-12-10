@@ -9,6 +9,7 @@ use Tests\TestCase;
 use Tests\Traits\ManagesAssignments;
 use Tests\Traits\ManagesComments;
 use Tests\Traits\ManagesPosts;
+use Tests\Traits\ManagesSubmissions;
 use Tests\Traits\ManagesUsers;
 
 class CommentTest extends TestCase
@@ -17,6 +18,7 @@ class CommentTest extends TestCase
     use ManagesUsers;
     use ManagesPosts;
     use ManagesAssignments;
+    use ManagesSubmissions;
     use ManagesComments;
 
     public function testUserCanSeeCommentsForPost(): void
@@ -77,6 +79,37 @@ class CommentTest extends TestCase
             "content" => "My content",
             "commentable_id" => $assignment->id,
             "commentable_type" => $assignment->getMorphClass(),
+            "user_id" => $user->id,
+        ]);
+    }
+
+    public function testUserCanSeeCommentsForSubmission(): void
+    {
+        $user = $this->createUser();
+        $submission = $this->createSubmission();
+        $this->createCommentsFor($submission, 10);
+
+        $this->actingAs($user)
+            ->get("/submissions/{$submission->id}/comments")
+            ->assertSuccessful()
+            ->assertJsonCount(10, "data");
+    }
+
+    public function testUserCanCreateCommentForSubmission(): void
+    {
+        $user = $this->createUser();
+        $submission = $this->createSubmission();
+
+        $this->actingAs($user)
+            ->post("/submissions/{$submission->id}/comments", [
+                "content" => "My content",
+            ])
+            ->assertSuccessful();
+
+        $this->assertDatabaseHas("comments", [
+            "content" => "My content",
+            "commentable_id" => $submission->id,
+            "commentable_type" => $submission->getMorphClass(),
             "user_id" => $user->id,
         ]);
     }

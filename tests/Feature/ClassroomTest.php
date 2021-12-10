@@ -16,6 +16,18 @@ class ClassroomTest extends TestCase
     use ManagesUsers;
     use ManagesClassrooms;
 
+    public function testUserCanSeeClassrooms(): void
+    {
+        $user = $this->createUser();
+        $classroom = $this->createClassroom();
+        $this->attachMembers($classroom, $user);
+
+        $this->actingAs($user)
+            ->get("/me/classrooms")
+            ->assertSuccessful()
+            ->assertJsonCount(1, "data");
+    }
+
     public function testUserCanSeeOwnedClassrooms(): void
     {
         $user = $this->createUser();
@@ -27,7 +39,7 @@ class ClassroomTest extends TestCase
             ->assertJsonCount(3, "data");
     }
 
-    public function testUserCanSeeClassrooms(): void
+    public function testUserCanSeeClassroom(): void
     {
         $user = $this->createUser();
         $classroom = $this->createClassroomFor($user);
