@@ -7,6 +7,8 @@ namespace App\Providers;
 use App\Models\Assignment;
 use App\Models\Classroom;
 use App\Models\Post;
+use App\Models\Submission;
+use App\Observers\AssignmentObserver;
 use App\Observers\ClassroomObserver;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
@@ -25,10 +27,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Classroom::observe(ClassroomObserver::class);
+        Assignment::observe(AssignmentObserver::class);
 
         Relation::morphMap([
             "post" => Post::class,
             "assignment" => Assignment::class,
+            "submission" => Submission::class,
         ]);
     }
 }

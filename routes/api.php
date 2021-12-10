@@ -11,6 +11,7 @@ use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\SubmissionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/", fn(): array => [
@@ -27,6 +28,7 @@ Route::middleware("auth:sanctum")->group(function (): void {
     Route::prefix("me")->group(function (): void {
         Route::get("/", UserController::class);
 
+        Route::get("/classrooms", [ClassroomController::class, "index"]);
         Route::get("/owned-classrooms", [ClassroomController::class, "ownedIndex"]);
     });
 
@@ -52,6 +54,8 @@ Route::middleware("auth:sanctum")->group(function (): void {
     Route::post("/posts/{post}/comments", [CommentController::class, "storeForPost"]);
     Route::get("/assignments/{assignment}/comments", [CommentController::class, "indexForAssignment"]);
     Route::post("/assignments/{assignment}/comments", [CommentController::class, "storeForAssignment"]);
+    Route::get("/submissions/{submission}/comments", [CommentController::class, "indexForSubmission"]);
+    Route::post("/submissions/{submission}/comments", [CommentController::class, "storeForSubmission"]);
     Route::get("/comments/{comment}", [CommentController::class, "show"]);
     Route::put("/comments/{comment}", [CommentController::class, "update"]);
     Route::delete("/comments/{comment}", [CommentController::class, "delete"]);
@@ -61,4 +65,10 @@ Route::middleware("auth:sanctum")->group(function (): void {
     Route::get("/assignments/{assignment}", [AssignmentController::class, "show"]);
     Route::put("/assignments/{assignment}", [AssignmentController::class, "update"]);
     Route::delete("/assignments/{assignment}", [AssignmentController::class, "delete"]);
+
+    Route::get("/assignments/{assignment}/submissions", [SubmissionController::class, "index"]);
+    Route::get("/submissions/{submission}", [SubmissionController::class, "show"]);
+    Route::put("/submissions/{submission}/return", [SubmissionController::class, "return"]);
+    Route::put("/submissions/{submission}/reclaim", [SubmissionController::class, "reclaim"]);
+    Route::put("/submissions/{submission}/evaluate", [SubmissionController::class, "evaluate"]);
 });
