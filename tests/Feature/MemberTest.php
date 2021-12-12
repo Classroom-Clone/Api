@@ -76,4 +76,52 @@ class MemberTest extends TestCase
 
         $this->assertCount(0, $classroom->members()->get());
     }
+
+    public function testUserCanJoinToClassroomIfJoiningIsEnabled(): void
+    {
+        $user = $this->createUser();
+        $classroom = $this->createClassroom();
+
+        $this->assertCount(0, $classroom->members()->get());
+
+        $this->actingAs($user)
+            ->post("/me/classrooms/join", [
+                "join_code" => $classroom->join_code,
+            ])
+            ->assertSuccessful();
+
+        $this->assertCount(1, $classroom->members()->get());
+    }
+
+    public function testUserCannotJoinToClassroomIfJoiningIsDisabled(): void
+    {
+        $user = $this->createUser();
+        $classroom = $this->createClassroom();
+        $classroom->disableJoining();
+
+        $this->assertCount(0, $classroom->members()->get());
+
+        $this->actingAs($user)
+            ->post("/me/classrooms/join", [
+                "join_code" => $classroom->join_code,
+            ])
+            ->assertForbidden();
+
+        $this->assertCount(0, $classroom->members()->get());
+    }
+
+    public function testUserCanExitClassroom(): void
+    {
+        $user = $this->createUser();
+        $classroom = $this->createClassroom();
+        $this->attachMembers($classroom, $user);
+
+        $this->assertCount(1, $classroom->members()->get());
+
+        $this->actingAs($user)
+            ->delete("/me/classrooms/{$classroom->id}/exit")
+            ->assertSuccessful();
+
+        $this->assertCount(0, $classroom->members()->get());
+    }
 }

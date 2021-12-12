@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
         Classroom::factory()
             ->count(2)
             ->archived()
+            ->disabledJoining()
             ->hasOwner()
             ->hasMembers(20)
             ->create();

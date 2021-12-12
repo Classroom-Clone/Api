@@ -138,4 +138,55 @@ class ClassroomTest extends TestCase
 
         $this->assertFalse($classroom->isArchived());
     }
+
+    public function testUserCanEnableJoiningToClassroom(): void
+    {
+        $user = $this->createUser();
+        $classroom = $this->createClassroomFor($user, [
+            "allow_join" => false,
+        ]);
+
+        $this->assertFalse($classroom->allowJoin());
+
+        $this->actingAs($user)
+            ->put("/classrooms/{$classroom->id}/joining")
+            ->assertSuccessful();
+
+        $classroom->refresh();
+
+        $this->assertTrue($classroom->allowJoin());
+    }
+
+    public function testUserCanDisableJoiningToClassroom(): void
+    {
+        $user = $this->createUser();
+        $classroom = $this->createClassroomFor($user);
+
+        $this->assertTrue($classroom->allowJoin());
+
+        $this->actingAs($user)
+            ->delete("/classrooms/{$classroom->id}/joining")
+            ->assertSuccessful();
+
+        $classroom->refresh();
+
+        $this->assertFalse($classroom->allowJoin());
+    }
+
+    public function testUserCanRefreshCode(): void
+    {
+        $user = $this->createUser();
+        $classroom = $this->createClassroomFor($user);
+        $code = $classroom->join_code;
+
+        $this->assertSame($code, $classroom->join_code);
+
+        $this->actingAs($user)
+            ->put("/classrooms/{$classroom->id}/refresh-code")
+            ->assertSuccessful();
+
+        $classroom->refresh();
+
+        $this->assertNotSame($code, $classroom->join_code);
+    }
 }

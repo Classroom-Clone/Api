@@ -11,8 +11,8 @@ class ClassroomObserver
 {
     public function creating(Classroom $classroom): void
     {
-        if ($classroom->invite_code === null) {
-            $classroom->invite_code = Str::random(24);
+        if ($classroom->join_code === null) {
+            $classroom->join_code = Str::random(24);
         }
     }
 }

@@ -44,7 +44,7 @@ class ClassroomController extends Controller
             ->ownedClassrooms()
             ->create($request->validated());
 
-        return new ClassroomResource($classroom);
+        return new ClassroomResource($classroom->refresh());
     }
 
     public function update(UpdateRequest $request, Classroom $classroom): JsonResource
@@ -71,6 +71,27 @@ class ClassroomController extends Controller
     public function unarchive(Classroom $classroom): JsonResource
     {
         $classroom->unarchive();
+
+        return new ClassroomResource($classroom);
+    }
+
+    public function refreshCode(Classroom $classroom): JsonResource
+    {
+        $classroom->refreshCode();
+
+        return new ClassroomResource($classroom);
+    }
+
+    public function enableJoining(Classroom $classroom): JsonResource
+    {
+        $classroom->enableJoining();
+
+        return new ClassroomResource($classroom);
+    }
+
+    public function disableJoining(Classroom $classroom): JsonResource
+    {
+        $classroom->disableJoining();
 
         return new ClassroomResource($classroom);
     }

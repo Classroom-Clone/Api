@@ -19,7 +19,8 @@ class ClassroomFactory extends Factory
         return [
             "name" => $this->faker->domainName(),
             "description" => $this->faker->paragraph(),
-            "invite_code" => Str::random(24),
+            "join_code" => Str::random(24),
+            "allow_join" => true,
             "accent_color" => $this->faker->hexColor(),
             "user_id" => User::factory(),
         ];
@@ -30,6 +31,15 @@ class ClassroomFactory extends Factory
         return $this->state(
             fn() => [
                 "archived_at" => Carbon::now(),
+            ],
+        );
+    }
+
+    public function disabledJoining(): Factory
+    {
+        return $this->state(
+            fn() => [
+                "allow_join" => false,
             ],
         );
     }

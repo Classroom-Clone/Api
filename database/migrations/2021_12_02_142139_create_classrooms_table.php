@@ -15,7 +15,8 @@ return new class() extends Migration {
             $table->string("name");
             $table->text("description")->nullable();
             $table->string("accent_color");
-            $table->string("invite_code");
+            $table->string("join_code");
+            $table->boolean("allow_join")->default(true);
             $table->foreignIdFor(User::class)
                 ->constrained()
                 ->cascadeOnDelete();
