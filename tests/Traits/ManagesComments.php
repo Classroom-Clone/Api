@@ -21,11 +21,11 @@ trait ManagesComments
         return $comment;
     }
 
-    public function createCommentFor(Post $post, array $data = []): Comment
+    public function createCommentFor(Commentable $commentable, array $data = []): Comment
     {
         /** @var Comment $comment */
         $comment = Comment::factory($data)
-            ->for($post, "commentable")
+            ->for($commentable, "commentable")
             ->create();
 
         return $comment;
