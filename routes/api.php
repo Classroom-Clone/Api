@@ -13,11 +13,10 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SubmissionController;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
-Route::get("/", fn(): array => [
-    "success" => true,
-]);
+Route::get("/", fn(): Response => response()->noContent());
 
 Route::prefix("auth")->group(function (): void {
     Route::post("login", LoginController::class);
@@ -30,6 +29,8 @@ Route::middleware("auth:sanctum")->group(function (): void {
         Route::get("/", UserController::class);
 
         Route::get("/classrooms", [ClassroomController::class, "index"]);
+        Route::post("/classrooms/join", [MemberController::class, "join"]);
+        Route::delete("/classrooms/{classroom}/exit", [MemberController::class, "exit"]);
         Route::get("/owned-classrooms", [ClassroomController::class, "ownedIndex"]);
     });
 
@@ -39,6 +40,9 @@ Route::middleware("auth:sanctum")->group(function (): void {
     Route::delete("/classrooms/{classroom}", [ClassroomController::class, "delete"]);
     Route::put("/classrooms/{classroom}/archive", [ClassroomController::class, "archive"]);
     Route::delete("/classrooms/{classroom}/archive", [ClassroomController::class, "unarchive"]);
+    Route::put("/classrooms/{classroom}/joining", [ClassroomController::class, "enableJoining"]);
+    Route::delete("/classrooms/{classroom}/joining", [ClassroomController::class, "disableJoining"]);
+    Route::put("/classrooms/{classroom}/refresh-code", [ClassroomController::class, "refreshCode"]);
 
     Route::get("/classrooms/{classroom}/members", [MemberController::class, "index"]);
     Route::post("/classrooms/{classroom}/members", [MemberController::class, "add"]);
