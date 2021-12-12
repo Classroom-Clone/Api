@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -71,4 +72,11 @@ Route::middleware("auth:sanctum")->group(function (): void {
     Route::put("/submissions/{submission}/return", [SubmissionController::class, "return"]);
     Route::put("/submissions/{submission}/reclaim", [SubmissionController::class, "reclaim"]);
     Route::put("/submissions/{submission}/evaluate", [SubmissionController::class, "evaluate"]);
+    Route::post("/submissions/{submission}/attachments", [SubmissionController::class, "attachFile"]);
+    Route::delete("/submissions/{submission}/attachments/{attachment}", [SubmissionController::class, "detachFile"]);
+
+    Route::get("/attachments", [AttachmentController::class, "index"]);
+    Route::post("/attachments", [AttachmentController::class, "store"]);
+    Route::get("/attachments/{attachment}", [AttachmentController::class, "show"]);
+    Route::delete("/attachments/{attachment}", [AttachmentController::class, "delete"]);
 });

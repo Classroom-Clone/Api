@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Post;
 
+use App\Http\Resources\Attachment\AttachmentResource;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,6 +20,7 @@ class PostResource extends JsonResource
             "updated_at" => $this->updated_at,
             "owner" => new UserResource($this->owner),
             "links" => LinkResource::collection($this->links),
+            "attachments" => AttachmentResource::collection($this->attachments),
         ];
     }
 }

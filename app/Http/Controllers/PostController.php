@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Actions\SyncAttachmentsAction;
 use App\Http\Requests\Post\StoreRequest;
 use App\Http\Requests\Post\UpdateRequest;
 use App\Http\Resources\Post\PostCollection;
@@ -35,16 +36,20 @@ class PostController extends Controller
         $post = $classroom->posts()->create($request->getPostData());
 
         $post->links()->createMany($request->getLinks());
+        $post->attachments()->saveMany($request->getAttachments());
 
         return new PostResource($post);
     }
 
-    public function update(UpdateRequest $request, Post $post): JsonResource
+    public function update(UpdateRequest $request, SyncAttachmentsAction $syncAttachments, Post $post): JsonResource
     {
         $post->update($request->getPostData());
 
         $post->links()->delete();
         $post->links()->createMany($request->getLinks());
+
+        $syncAttachments->execute($post, $request->getAttachments());
+        $post->refresh();
 
         return new PostResource($post);
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\Assignment;
+use App\Models\Attachment;
 use App\Models\Classroom;
 use App\Models\Comment;
 use App\Models\Post;
@@ -35,7 +36,15 @@ class DatabaseSeeder extends Seeder
             ->create();
 
         Post::factory()
-            ->count(50)
+            ->count(10)
+            ->forRandomClassroom()
+            ->hasComments(Comment::factory()->count(10)->forRandomUser())
+            ->hasLinks(3)
+            ->hasAttachments(Attachment::factory()->count(2)->forRandomUser())
+            ->create();
+
+        Post::factory()
+            ->count(40)
             ->forRandomClassroom()
             ->hasComments(Comment::factory()->count(10)->forRandomUser())
             ->hasLinks(3)

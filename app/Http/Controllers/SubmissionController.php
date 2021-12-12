@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enums\SubmissionState;
+use App\Http\Requests\Submission\AttachRequest;
 use App\Http\Requests\Submission\EvaluateRequest;
 use App\Http\Resources\Submission\SubmissionCollection;
 use App\Http\Resources\Submission\SubmissionResource;
 use App\Models\Assignment;
+use App\Models\Attachment;
 use App\Models\Submission;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 
 class SubmissionController extends Controller
 {
@@ -48,5 +51,19 @@ class SubmissionController extends Controller
         $submission->changeStateTo(SubmissionState::EVALUATED);
 
         return new SubmissionResource($submission);
+    }
+
+    public function attachFile(AttachRequest $request, Submission $submission): JsonResource
+    {
+        $submission->attachments()->save($request->getAttachment());
+
+        return new SubmissionResource($submission);
+    }
+
+    public function detachFile(Submission $submission, Attachment $attachment): Response
+    {
+        $attachment->delete();
+
+        return response()->noContent();
     }
 }

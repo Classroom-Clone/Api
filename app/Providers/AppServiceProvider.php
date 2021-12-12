@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Models\Assignment;
+use App\Models\Attachment;
 use App\Models\Classroom;
 use App\Models\Post;
 use App\Models\Submission;
 use App\Observers\AssignmentObserver;
+use App\Observers\AttachmentObserver;
 use App\Observers\ClassroomObserver;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
@@ -28,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Classroom::observe(ClassroomObserver::class);
         Assignment::observe(AssignmentObserver::class);
+        Attachment::observe(AttachmentObserver::class);
 
         Relation::morphMap([
             "post" => Post::class,
