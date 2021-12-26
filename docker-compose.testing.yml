@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  php:
+    image: ghcr.io/blumilksoftware/php:8.1
+    container_name: classroom-php
+    working_dir: /application
+    volumes:
+      - .:/application
+    networks:
+      - classroom
+    restart: unless-stopped
+
+networks:
+  classroom:
+    driver: bridge
