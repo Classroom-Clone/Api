@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Classroom;
 
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ClassroomResource extends JsonResource
@@ -14,6 +15,7 @@ class ClassroomResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "description" => $this->description,
+            "owner" => new UserResource($this->owner),
             "color" => $this->accent_color,
             "allow_join" => $this->allowJoin(),
             "join_code" => $this->when($this->allowJoin(), $this->join_code),
